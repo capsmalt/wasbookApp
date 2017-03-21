@@ -1,0 +1,14 @@
+<html>
+<head>
+<title>Visual Recognition</title>
+</head>
+<body>
+	<form name="frm" method="post" enctype="multipart/form-data" action="./visualrecognition">
+		<input type="file" name="img_file" /><input type="submit"
+			value="Upload" />
+	</form>
+	<form name="classify" method="get" action="./VRServlet">
+		<input type="submit" value="Classify">
+	</form>
+</body>
+</html>
