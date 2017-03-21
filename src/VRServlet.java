@@ -36,7 +36,7 @@ public class VRServlet extends HttpServlet {
 		System.out.println("Classify an image");
 		ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
 		    .images(new File("/Users/capsma1t/env/eclipse/4.6_Neon/WDT/wasbook_eclipse462/imgs/test/singapura.jpg"))
-		    .build();
+		    .build(); // 現在は絶対パスを使用。car.pngとsingapura.jpgが使用可能
 		VisualClassification result = service.classify(options).execute();
 		System.out.println(result);
 		resp.getWriter().println(result);
