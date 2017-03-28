@@ -24,7 +24,6 @@ public class VRClassifyByCustomeClassifierServlet extends HttpServlet {
      */
     public VRClassifyByCustomeClassifierServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -33,18 +32,17 @@ public class VRClassifyByCustomeClassifierServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
 		service.setApiKey("14d773bd9686a383b2508bf1d7a991f4b92a497f"); // apiKey
-
-	    // Classify using generated classifier
+		String pathToTargetImage = request.getParameter("path_CustomClassify");
+		response.getWriter().println("path: " + pathToTargetImage);
+		
+		String classifierId = request.getParameter("classifierId");
+		
+	    // Classify using generated classifier (classifierId = myfavorite_1772425759)
 	    System.out.println("Classify using the 'myfavorite' classifier");
-	    // trueイメージのテスト
-	    ClassifyImagesOptions options = new ClassifyImagesOptions.Builder().images(new File("/Users/capsma1t/env/eclipse/4.6_Neon/WDT/wasbook_eclipse462/imgs/Classify_test/true/chandelier_0102.jpg"))
-	        .classifierIds("myfavorite_1772425759").build();
-	    // falseイメージのテスト
-//	    options = new ClassifyImagesOptions.Builder().images(new File("/Users/capsma1t/env/eclipse/4.6_Neon/WDT/wasbook_eclipse462/imgs/Classify_test/false/lamp_0017.jpg"))
-//		        .classifierIds("myfavorite_1772425759").build();
+	    ClassifyImagesOptions options = new ClassifyImagesOptions.Builder().images(new File(pathToTargetImage))
+	        .classifierIds(classifierId).build();
 	    VisualClassification result = service.classify(options).execute();
 	    System.out.println(result);
 	    response.getWriter().println(result);
 	}
-
 }

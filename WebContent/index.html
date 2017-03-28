@@ -1,23 +1,55 @@
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>Visual Recognition</title>
 </head>
 <body>
-<!-- 	<form name="frm" method="post" enctype="multipart/form-data" action="./visualrecognition">
-		<input type="file" name="img_file" /><input type="submit"
-			value="Upload" />
-	</form> -->
-	<form name="classify" method="post" action="./VRClassifyServlet">
+	### Servletでのテスト(ローカルのみ) <br>
+	1) Classify Default
+ 	<form name="classify" method="post" action="./VRClassifyServlet">
+		pathToTargetImage : <input type="text" name="path_defaultClassify">
 		<input type="submit" value="Classify (default)">
-	</form>	
-	<form name="classify using custome classifier" method="post" action="./VRClassifyByCustomeClassifierServlet">
-		<input type="submit" value="Classify using custome classifier">
-	</form>	
-	<form name="learn" method="post" action="./VRLearnServlet">
-		<input type="submit" value="Learn data for generating custome classifier (only once)">
 	</form>
-	<form name="update" method="post" action="./VRUpdateCustomClassifierServlet">
+	2) Classify Custom
+	<form name="classify using custome classifier" method="post"
+		action="./VRClassifyByCustomeClassifierServlet">
+		pathToTargetImage : <input type="text" name="path_CustomClassify">
+		Classifier ID : <input type="text" name="classifierId"
+			value="myfavorite_1772425759"> <input type="submit"
+			value="Classify using custome classifier">
+	</form>
+	3) Learn
+	<form name="learn" method="post" action="./VRLearnServlet">
+		<input type="submit"
+			value="Learn data for generating custome classifier (only once)">
+	</form>
+	
+	4) Update
+	<form name="update" method="post"
+		action="./VRUpdateCustomClassifierServlet">
 		<input type="submit" value="Update custome classifier">
+	</form>
+
+	### REST API<br>
+	1) Classify Default
+	<form method="POST" action="rest/visualrecognition/classify" enctype="multipart/form-data">
+		File: <input type="file" name="upload-file" id="upload-file" /> <br />
+		<!-- ID: <input type="text" name="inputid" id="inputid" /> -->
+		</br> <input type="submit" value="Classify" name="upload" id="upload" />
+	</form>
+	2) Classify Custom (※現時点では，ClassifierIdの任意指定は不可)
+	<form name="classify using custome classifier" method="POST"
+		action="rest/visualrecognition/classifyCustom" enctype="multipart/form-data">
+		File: <input type="file" name="upload-file" id="upload-file" /> <br />
+		<!-- pathToTargetImage : <input type="text" name="path_CustomClassify"> -->
+		Classifier ID : <input type="text" name="classifierId" value="myfavorite_1772425759">
+		</br> <input type="submit" value="Classify Custom" name="upload-custome" id="upload-custom" />
+	</form>
+	
+	### テスト用
+	<form name="test" method="post" action="rest/visualrecognition/test" enctype="multipart/form-data">
+		<input type="text" name="test" value="abc" id="testId">
+		<input type="submit" value="test">
 	</form>
 </body>
 </html>
