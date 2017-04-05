@@ -7,19 +7,22 @@
 	### URL入力によるVisual Recognition <br>
 	1) Classify Default
 	<form method="POST" action="rest/visualrecognition/classify">
+		apiKey : <input type="text" name="apiKey" value="14d773bd9686a383b2508bf1d7a991f4b92a497f" /><br>
 		画像URL : <input type="text" name="href" value="http://fast-uploader.com/transfer/7046926290445.jpg"/>
 		<input type="submit" value="Classify" />
 	</form>
 
 	2) Classify Custom
 	<form method="POST" action="rest/visualrecognition/classifyCustom">
+		apiKey : <input type="text" name="apiKey" value="14d773bd9686a383b2508bf1d7a991f4b92a497f" /><br>
 		画像URL : <input type="text" name="href" value="http://fast-uploader.com/transfer/7046926290445.jpg"/>
-		識別器ID : <input type="text" name="classifierId" value="myclassifier_1731117513" />
+		識別器ID : <input type="text" name="classifierId" value="myclassifier_955526736" />
 		<input type="submit" value="Classify" />
 	</form>
 
 	3) Learn Classifier
 	<form method="POST" action="rest/visualrecognition/classifiers">
+		apiKey : <input type="text" name="apiKey" value="14d773bd9686a383b2508bf1d7a991f4b92a497f" /><br>
 		- Positive Images(.zip) <br>
 		学習用データ(.zip)URL : <input type="text" name="href1" value="http://fast-uploader.com/transfer/7046926195210.zip"/> クラス名 : <input type="text" name="className1" value="chandelier" /><br>
 		学習用データ(.zip)URL : <input type="text" name="href2" value="http://fast-uploader.com/transfer/7046926224684.zip"/> クラス名 : <input type="text" name="className2" value="laptop" /><br>

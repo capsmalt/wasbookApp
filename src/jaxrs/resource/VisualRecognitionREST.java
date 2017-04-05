@@ -27,8 +27,10 @@ public class VisualRecognitionREST {
 	@Path("/classify")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response classifyDefault(
-			@FormParam("href") String href){
-		WasbookVR wvr = new WasbookVR(href);
+			@FormParam("apiKey") String apiKey,
+			@FormParam("href") String href
+			){
+		WasbookVR wvr = new WasbookVR(href,apiKey);
 		VisualClassification resultMessage = wvr.classify();
 		return Response.ok(resultMessage).build();
 	}
@@ -37,10 +39,11 @@ public class VisualRecognitionREST {
 	@Path("/classifyCustom")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response clussifyCustom(
+			@FormParam("apiKey") String apiKey,
 			@FormParam("href") String href,
 			@FormParam("classifierId") String classifierId
 			){
-		WasbookVR wvr = new WasbookVR(href);
+		WasbookVR wvr = new WasbookVR(href,apiKey);
 		VisualClassification resultMessage = wvr.classifyCustom(classifierId);
 		return Response.ok(resultMessage).build();
 	}	
@@ -49,6 +52,7 @@ public class VisualRecognitionREST {
 	@Path("/classifiers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response classifiers(
+			@FormParam("apiKey") String apiKey,
 			@FormParam("href1") String pos1, @FormParam("className1") String pos_className1,
 			@FormParam("href2") String pos2, @FormParam("className2") String pos_className2,
 			@FormParam("href3") String pos3, @FormParam("className3") String pos_className3,
@@ -60,7 +64,7 @@ public class VisualRecognitionREST {
 		Collections.addAll(hrefs, pos1,pos2,pos3,neg);
 		Collections.addAll(classNames, pos_className1,pos_className2,pos_className3);
 
-		WasbookVR wvr = new WasbookVR(pos1);// 要修正 : 本来，このコンストラクタで，一つだけのURLを渡しても意味がない。 //他のメソッドのコンストラクタは一つのURLで良いが。
+		WasbookVR wvr = new WasbookVR(null,apiKey);// 要修正 : 本来，このコンストラクタで，一つだけのURLを渡しても意味がない。 //他のメソッドのコンストラクタは一つのURLで良いが。
 		VisualClassifier resultMessage = wvr.classifierLearn(hrefs,classNames,classifierName);
 		return Response.ok(resultMessage).build();
 	}
