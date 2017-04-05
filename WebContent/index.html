@@ -4,7 +4,34 @@
 <title>Visual Recognition</title>
 </head>
 <body>
-	### Servletでのテスト(ローカルのみ) <br>
+	### URL入力によるVisual Recognition <br>
+	1) Classify Default
+	<form method="POST" action="rest/visualrecognition/classify">
+		画像URL : <input type="text" name="href" value="http://fast-uploader.com/transfer/7046926290445.jpg"/>
+		<input type="submit" value="Classify" />
+	</form>
+
+	2) Classify Custom
+	<form method="POST" action="rest/visualrecognition/classifyCustom">
+		画像URL : <input type="text" name="href" value="http://fast-uploader.com/transfer/7046926290445.jpg"/>
+		識別器ID : <input type="text" name="classifierId" value="myclassifier_1731117513" />
+		<input type="submit" value="Classify" />
+	</form>
+
+	3) Learn Classifier
+	<form method="POST" action="rest/visualrecognition/classifiers">
+		- Positive Images(.zip) <br>
+		学習用データ(.zip)URL : <input type="text" name="href1" value="http://fast-uploader.com/transfer/7046926195210.zip"/> クラス名 : <input type="text" name="className1" value="chandelier" /><br>
+		学習用データ(.zip)URL : <input type="text" name="href2" value="http://fast-uploader.com/transfer/7046926224684.zip"/> クラス名 : <input type="text" name="className2" value="laptop" /><br>
+		学習用データ(.zip)URL : <input type="text" name="href3" value="http://fast-uploader.com/transfer/7046926248143.zip"/> クラス名 : <input type="text" name="className3" value="pizza" /><br>
+		- Negative Images(.zip) <br>
+		学習用データ(.zip)URL : <input type="text" name="neg" value="http://fast-uploader.com/transfer/7046931524460.zip"/><br>
+		- 識別器(ClassifierName) <br>
+		識別器名 : <input type="text" name="classifierName" value="myclassifier"/><br>
+		<input type="submit" value="Learn" />
+	</form>
+	
+<!--  	### Servletでのテスト(ローカルのみ) <br>
 	1) Classify Default
  	<form name="classify" method="post" action="./VRClassifyServlet">
 		pathToTargetImage : <input type="text" name="path_defaultClassify">
@@ -29,27 +56,30 @@
 		action="./VRUpdateCustomClassifierServlet">
 		<input type="submit" value="Update custome classifier">
 	</form>
-
-	### REST API<br>
+ -->
+ 
+<!-- 	### REST API<br>
 	1) Classify Default
 	<form method="POST" action="rest/visualrecognition/classify" enctype="multipart/form-data">
 		File: <input type="file" name="upload-file" id="upload-file" /> <br />
-		<!-- ID: <input type="text" name="inputid" id="inputid" /> -->
+		ID: <input type="text" name="inputid" id="inputid" />
 		</br> <input type="submit" value="Classify" name="upload" id="upload" />
 	</form>
 	2) Classify Custom (※現時点では，ClassifierIdの任意指定は不可)
 	<form name="classify using custome classifier" method="POST"
 		action="rest/visualrecognition/classifyCustom" enctype="multipart/form-data">
 		File: <input type="file" name="upload-file" id="upload-file" /> <br />
-		<!-- pathToTargetImage : <input type="text" name="path_CustomClassify"> -->
+		pathToTargetImage : <input type="text" name="path_CustomClassify">
 		Classifier ID : <input type="text" name="classifierId" value="myfavorite_1772425759">
 		</br> <input type="submit" value="Classify Custom" name="upload-custome" id="upload-custom" />
 	</form>
-	
-	### テスト用
+ -->	
+
+<!-- 	### テスト用
 	<form name="test" method="post" action="rest/visualrecognition/test" enctype="multipart/form-data">
 		<input type="text" name="test" value="abc" id="testId">
 		<input type="submit" value="test">
 	</form>
-</body>
+ -->
+ </body>
 </html>
