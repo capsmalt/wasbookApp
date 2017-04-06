@@ -45,7 +45,7 @@ public class WasbookVR {
 
 	public VisualClassifier classifierLearn(String[] hrefs, String[] classNames, String classifierName) {
 		if (hrefs.length != 4 || classNames.length != 3) return null;
-		System.out.println("Loadind images...");
+		System.out.println("Loading images...");
 		ClassifierOptions createOptions = new ClassifierOptions.Builder().classifierName(classifierName)
 				.addClass(classNames[0], getInputFileObject(hrefs[0], ZIP))
 				.addClass(classNames[1], getInputFileObject(hrefs[1], ZIP))

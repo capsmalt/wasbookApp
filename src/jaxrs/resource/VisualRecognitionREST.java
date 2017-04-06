@@ -1,9 +1,5 @@
 package jaxrs.resource;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import javax.enterprise.context.Dependent;
 
 import javax.ws.rs.FormParam;
@@ -22,7 +18,7 @@ import jaxrs.model.WasbookVR;
 @Path("visualrecognition")
 public class VisualRecognitionREST {
 
-	// URL入力バージョン
+	// URL input version
 	@POST
 	@Path("/classify")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -53,9 +49,9 @@ public class VisualRecognitionREST {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response classifiers(
 			@FormParam("apiKey") String apiKey,
-			@FormParam("href1") String pos1, @FormParam("className1") String pos_className1,
-			@FormParam("href2") String pos2, @FormParam("className2") String pos_className2,
-			@FormParam("href3") String pos3, @FormParam("className3") String pos_className3,
+			@FormParam("pos1") String pos1, @FormParam("className1") String pos_className1,
+			@FormParam("pos2") String pos2, @FormParam("className2") String pos_className2,
+			@FormParam("pos3") String pos3, @FormParam("className3") String pos_className3,
 			@FormParam("neg") String neg,
 			@FormParam("classifierName") String classifierName
 			) {
