@@ -59,10 +59,9 @@ public class VisualRecognitionREST {
 			@FormParam("neg") String neg,
 			@FormParam("classifierName") String classifierName
 			) {
-		List<String> hrefs = new ArrayList<String>();
-		List<String> classNames = new ArrayList<String>();
-		Collections.addAll(hrefs, pos1,pos2,pos3,neg);
-		Collections.addAll(classNames, pos_className1,pos_className2,pos_className3);
+		
+		String[] hrefs = new String[] { pos1, pos2, pos3, neg };
+		String[] classNames = new String[] { pos_className1, pos_className2, pos_className3 };
 
 		WasbookVR wvr = new WasbookVR(null,apiKey);// 要修正 : 本来，このコンストラクタで，一つだけのURLを渡しても意味がない。 //他のメソッドのコンストラクタは一つのURLで良いが。
 		VisualClassifier resultMessage = wvr.classifierLearn(hrefs,classNames,classifierName);
