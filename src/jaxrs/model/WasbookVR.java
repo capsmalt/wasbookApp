@@ -55,6 +55,16 @@ public class WasbookVR {
 		return result;
 	}
 
+
+//	public VisualClassifier classifierDelete(String classifierName) {
+//		Delete
+//		DeleteClassifierOptions  options = new ClassifyImagesOptions.Builder()
+//				.classifierIds(classifierName).
+//		VisualClassifier result = service.createClassifier(createOptions).execute();
+//		return result;
+//	}
+	
+
 	public File getInputFileObject(String inputImgUrl, String Extension) {
 		File temp = null;
 		try {

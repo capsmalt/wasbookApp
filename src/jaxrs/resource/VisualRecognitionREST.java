@@ -3,6 +3,7 @@ package jaxrs.resource;
 import javax.enterprise.context.Dependent;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,7 +20,7 @@ import jaxrs.model.WasbookVR;
 public class VisualRecognitionREST {
 
 	// URL input version
-	@POST
+	@GET
 	@Path("/classify")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response classifyDefault(
@@ -32,7 +33,7 @@ public class VisualRecognitionREST {
 	}
 
 	@POST
-	@Path("/classifyCustom")
+	@Path("/classify")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response clussifyCustom(
 			@FormParam("apiKey") String apiKey,
@@ -63,7 +64,19 @@ public class VisualRecognitionREST {
 		VisualClassifier resultMessage = wvr.classifierLearn(hrefs,classNames,classifierName);
 		return Response.ok(resultMessage).build();
 	}
-	
+
+//	@POST
+//	@Path("/classifiers/{classifier_id}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response deleteClassifier(
+//			@FormParam("apiKey") String apiKey,
+//			@FormParam("classifierName") String classifierName
+//			) {
+//
+//		WasbookVR wvr = new WasbookVR(null,apiKey);// 要修正 : 本来，このコンストラクタで，一つだけのURLを渡しても意味がない。 //他のメソッドのコンストラクタは一つのURLで良いが。
+//		VisualClassifier resultMessage = wvr.classifierDelete(classifierName);
+//		return Response.ok(resultMessage).build();
+//	}	
 	
 // IMultipart使用バージョン(ただし，API Discoveryが使えない)
 //	@POST
