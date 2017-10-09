@@ -19,7 +19,6 @@ import jaxrs.model.WasbookVR;
 @Path("visualrecognition")
 public class VisualRecognitionREST {
 
-	// URL input version
 	@GET
 	@Path("/classify")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -60,53 +59,8 @@ public class VisualRecognitionREST {
 		String[] hrefs = new String[] { pos1, pos2, pos3, neg };
 		String[] classNames = new String[] { pos_className1, pos_className2, pos_className3 };
 
-		WasbookVR wvr = new WasbookVR(null,apiKey);// 要修正 : 本来，このコンストラクタで，一つだけのURLを渡しても意味がない。 //他のメソッドのコンストラクタは一つのURLで良いが。
+		WasbookVR wvr = new WasbookVR(null,apiKey);
 		VisualClassifier resultMessage = wvr.classifierLearn(hrefs,classNames,classifierName);
 		return Response.ok(resultMessage).build();
-	}
-
-//	@POST
-//	@Path("/classifiers/{classifier_id}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response deleteClassifier(
-//			@FormParam("apiKey") String apiKey,
-//			@FormParam("classifierName") String classifierName
-//			) {
-//
-//		WasbookVR wvr = new WasbookVR(null,apiKey);// 要修正 : 本来，このコンストラクタで，一つだけのURLを渡しても意味がない。 //他のメソッドのコンストラクタは一つのURLで良いが。
-//		VisualClassifier resultMessage = wvr.classifierDelete(classifierName);
-//		return Response.ok(resultMessage).build();
-//	}	
-	
-// IMultipart使用バージョン(ただし，API Discoveryが使えない)
-//	@POST
-//	@Path("/classify")
-//	@Consumes(MediaType.MULTIPART_FORM_DATA) // @Consumes("multipart/form-data")でも同じ
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response classifyDefault(IMultipartBody multipartBody){
-//		MyClassify mc = new MyClassify(multipartBody);
-//		VisualClassification resultMessage = mc.classify();
-//		return Response.ok(resultMessage).build();
-//	}
-	
-//	@POST
-//	@Path("/classifyCustom")
-//	@Consumes(MediaType.MULTIPART_FORM_DATA)
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response clussifyCustom(
-////			IMultipartBody multipartBody,
-////			@QueryParam("classifierId") String classifierId){
-////		System.out.println("ID : " + classifierId);
-////		MyClassify mc = new MyClassify(multipartBody);
-////		mc.classifyCustom(classifierId);
-////		return Response.ok("ok").build();
-//
-//			// @QueryParamとIMultipartBodyを併用できないので，とりあえずClassifierIdは直打ち
-//			IMultipartBody multipartBody
-//			){
-//		String classifierId = "myfavorite_1772425759";
-//		MyClassify mc = new MyClassify(multipartBody);
-//		VisualClassification resultMessage = mc.classifyCustom(classifierId);
-//		return Response.ok(resultMessage).build();
-//	}
+	}	
 }
