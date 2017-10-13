@@ -15,46 +15,49 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifi
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
 
 public class WasbookVR {
-	private String inputImgUrl;
-	private VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
-	private static final String ZIP = ".zip", JPG = ".jpg";
+	private String inputImgUrl; //テスト用や学習用画像(群)のURL
+	private VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20); //APIバージョンを指定
+	private static final String ZIP = ".zip", JPG = ".jpg"; //画像認識に使用するファイルオブジェクトに付与する拡張子
 
+	// リソースクラス(VisualRecognitionRESTクラス)で呼ばれた際に、画像URLやapiKeyをセットするコンストラクタ
 	public WasbookVR(String inputImgUrl, String apiKey) {
 		this.inputImgUrl = inputImgUrl;
 		this.service.setApiKey(apiKey);
 	}
 
+	// 1) デフォルトの識別器を使用して画像認識するメソッド
 	public VisualClassification classify() {
 		System.out.println("Classifying an image...");
 		ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
-				.images(getInputFileObject(inputImgUrl, JPG)).build();
-		VisualClassification result = service.classify(options).execute();
+				.images(getInputFileObject(inputImgUrl, JPG)).build(); //認識対象の画像をセット
+		VisualClassification result = service.classify(options).execute(); //画像認識を実行
 		System.out.println(result);
 		return result;
 	}
 
+	// 2) 学習用画像を使って識別器を生成するメソッド
+	public VisualClassifier classifierLearn(String[] hrefs, String[] classNames, String classifierName) {
+		if (hrefs.length != 4 || classNames.length != 3) return null;
+		System.out.println("Loading images...");
+		ClassifierOptions createOptions = new ClassifierOptions.Builder().classifierName(classifierName) //生成する識別器の名前をセット
+				.addClass(classNames[0], getInputFileObject(hrefs[0], ZIP)) //正解画像群1をセット
+				.addClass(classNames[1], getInputFileObject(hrefs[1], ZIP)) //正解画像群2をセット
+				.addClass(classNames[2], getInputFileObject(hrefs[2], ZIP)) //正解画像群3をセット
+				.negativeExamples(getInputFileObject(hrefs[3], ZIP)).build(); //非正解画像群をセット
+		VisualClassifier result = service.createClassifier(createOptions).execute(); //識別器の生成を実行
+		return result;
+	}
+
+	// 3) 2)で生成した識別器を使用して画像認識するメソッド
 	public VisualClassification classifyCustom(String classifierId) {
 		System.out.println("Classifying using the custom classifier...");
 		System.out.println("Using : " + classifierId);
 		ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
-				.images(getInputFileObject(inputImgUrl, JPG)).classifierIds(classifierId).build();
-		VisualClassification result = service.classify(options).execute();
+				.images(getInputFileObject(inputImgUrl, JPG)).classifierIds(classifierId).build(); //認識対象の画像と使用する識別器IDをセット
+		VisualClassification result = service.classify(options).execute(); //画像認識を実行
 		System.out.println(result);
 		return result;
 	}
-
-	public VisualClassifier classifierLearn(String[] hrefs, String[] classNames, String classifierName) {
-		if (hrefs.length != 4 || classNames.length != 3) return null;
-		System.out.println("Loading images...");
-		ClassifierOptions createOptions = new ClassifierOptions.Builder().classifierName(classifierName)
-				.addClass(classNames[0], getInputFileObject(hrefs[0], ZIP))
-				.addClass(classNames[1], getInputFileObject(hrefs[1], ZIP))
-				.addClass(classNames[2], getInputFileObject(hrefs[2], ZIP))
-				.negativeExamples(getInputFileObject(hrefs[3], ZIP)).build();
-		VisualClassifier result = service.createClassifier(createOptions).execute();
-		return result;
-	}
-
 
 //	public VisualClassifier classifierDelete(String classifierName) {
 //		Delete
@@ -64,7 +67,7 @@ public class WasbookVR {
 //		return result;
 //	}
 	
-
+	// 画像URLからファイルオブジェクトを生成するメソッド
 	public File getInputFileObject(String inputImgUrl, String Extension) {
 		File temp = null;
 		try {
