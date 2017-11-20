@@ -1,5 +1,7 @@
 package jaxrs.resource;
 
+import java.io.FileNotFoundException;
+
 import javax.enterprise.context.Dependent;
 
 import javax.ws.rs.FormParam;
@@ -10,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
-import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifiedImages;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.Classifier;
 
 import jaxrs.model.WasbookVR;
 
@@ -29,9 +31,9 @@ public class VisualRecognitionREST {
 	public Response classifyDefault(
 			@FormParam("apiKey") String apiKey, //Watson APIを使用するための自身のAPIキー
 			@FormParam("href") String href      //画像認識対象の画像URL
-			){
+			) throws FileNotFoundException{
 		WasbookVR wvr = new WasbookVR(href,apiKey);
-		VisualClassification resultMessage = wvr.classify();
+		ClassifiedImages resultMessage = wvr.classify();
 		return Response.ok(resultMessage).build();
 	}
 	
@@ -49,13 +51,13 @@ public class VisualRecognitionREST {
 			@FormParam("pos3") String pos3, @FormParam("className3") String pos_className3, //正解画像群3をインプット
 			@FormParam("neg") String neg, //非正解画像群をインプット
 			@FormParam("classifierName") String classifierName //生成する識別器の名前を指定
-			) {
+			) throws FileNotFoundException {
 		
 		String[] hrefs = new String[] { pos1, pos2, pos3, neg };
 		String[] classNames = new String[] { pos_className1, pos_className2, pos_className3 };
 
 		WasbookVR wvr = new WasbookVR(null,apiKey);
-		VisualClassifier resultMessage = wvr.classifierLearn(hrefs,classNames,classifierName);
+		Classifier resultMessage = wvr.classifierLearn(hrefs,classNames,classifierName);
 		return Response.ok(resultMessage).build();
 	}
 	
@@ -70,9 +72,9 @@ public class VisualRecognitionREST {
 			@FormParam("apiKey") String apiKey, //Watson APIを使用するための自身のAPIキー
 			@FormParam("href") String href,     //画像認識対象の画像URL
 			@FormParam("classifierId") String classifierId //使用する識別器のID
-			){
+			) throws FileNotFoundException{
 		WasbookVR wvr = new WasbookVR(href,apiKey);
-		VisualClassification resultMessage = wvr.classifyCustom(classifierId);
+		ClassifiedImages resultMessage = wvr.classifyCustom(classifierId);
 		return Response.ok(resultMessage).build();
 	}	
 }
