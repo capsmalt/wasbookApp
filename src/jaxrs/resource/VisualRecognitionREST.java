@@ -19,8 +19,10 @@ import jaxrs.model.WasbookVR;
 @Path("visualrecognition")
 public class VisualRecognitionREST {
 
-	// 1) "GET /rest/visualrecognition/classify" で呼ばれ、デフォルト識別器で画像認識する
-	// 用途: 画像URLを受け取り、画像認識メソッド(WasbookVR.classify())を呼出す
+	/*
+	 * デフォルト識別器で画像認識する
+	 * 画像URLを受け取り、画像認識メソッドを呼出して、識別結果としてカテゴリと尤度を受取り、JSON形式で返す
+	 */
 	@GET
 	@Path("/classify")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -33,8 +35,10 @@ public class VisualRecognitionREST {
 		return Response.ok(resultMessage).build();
 	}
 	
-	// 2) "POST /rest/visualrecognition/classifiers" で呼ばれ、学習用画像を使用して識別器を生成する
-	// 用途: 画像URLを受け取り、識別器の学習・生成メソッド(WasbookVR.classifierLearn())を呼出す
+	/*
+	 * 学習用画像を使用して識別器を生成する
+	 * 画像URLを受け取り、識別器の学習・生成メソッドを呼出して、生成された識別器IDを受取り、JSON形式で返す
+	 */
 	@POST
 	@Path("/classifiers")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -55,8 +59,10 @@ public class VisualRecognitionREST {
 		return Response.ok(resultMessage).build();
 	}
 	
-	// 3) "POST /rest/visualrecognition/classify" で呼ばれ、独自に生成した識別器で画像認識する
-	// 用途: 画像URLを受け取り、自身で作成した識別器を使用した画像認識メソッド(WasbookVR.classifyCustom())を呼出す
+	/*
+	 * 独自に生成した識別器で画像認識する
+	 * 画像URLを受け取り、画像認識メソッドを呼出して、独自の識別器を使用した識別結果としてカテゴリと尤度を受取り、JSON形式で返す
+	 */
 	@POST
 	@Path("/classify")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -14,18 +14,25 @@ import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImages
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassifier;
 
+/*
+ * Watson SDKを使用して、IBM Cloud上のVisual Recognitionサービスに画像認識や識別器生成のリクエストを送信する
+ */
 public class WasbookVR {
 	private String inputImgUrl; //テスト用や学習用画像(群)のURL
 	private VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20); //APIバージョンを指定
 	private static final String ZIP = ".zip", JPG = ".jpg"; //画像認識に使用するファイルオブジェクトに付与する拡張子
 
-	// リソースクラス(VisualRecognitionRESTクラス)で呼ばれた際に、画像URLやapiKeyをセットするコンストラクタ
+	/*
+	 * 画像URLやapiKeyをセットするコンストラクタ
+	 */
 	public WasbookVR(String inputImgUrl, String apiKey) {
 		this.inputImgUrl = inputImgUrl;
 		this.service.setApiKey(apiKey);
 	}
 
-	// 1) デフォルトの識別器を使用して画像認識するメソッド
+	/*
+	 * デフォルトの識別器を使用して画像認識する
+	 */
 	public VisualClassification classify() {
 		System.out.println("Classifying an image...");
 		ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
@@ -35,7 +42,9 @@ public class WasbookVR {
 		return result;
 	}
 
-	// 2) 学習用画像を使って識別器を生成するメソッド
+	/*
+	 * 学習用画像を使って独自の識別器を生成する
+	 */
 	public VisualClassifier classifierLearn(String[] hrefs, String[] classNames, String classifierName) {
 		if (hrefs.length != 4 || classNames.length != 3) return null;
 		System.out.println("Loading images...");
@@ -48,7 +57,9 @@ public class WasbookVR {
 		return result;
 	}
 
-	// 3) 2)で生成した識別器を使用して画像認識するメソッド
+	/*
+	 * 独自に生成した識別器を使用して画像認識する
+	 */
 	public VisualClassification classifyCustom(String classifierId) {
 		System.out.println("Classifying using the custom classifier...");
 		System.out.println("Using : " + classifierId);
@@ -58,16 +69,10 @@ public class WasbookVR {
 		System.out.println(result);
 		return result;
 	}
-
-//	public VisualClassifier classifierDelete(String classifierName) {
-//		Delete
-//		DeleteClassifierOptions  options = new ClassifyImagesOptions.Builder()
-//				.classifierIds(classifierName).
-//		VisualClassifier result = service.createClassifier(createOptions).execute();
-//		return result;
-//	}
 	
-	// 画像URLからファイルオブジェクトを生成するメソッド
+	/*
+	 * 画像URLからファイルオブジェクトを生成する
+	 */
 	public File getInputFileObject(String inputImgUrl, String Extension) {
 		File temp = null;
 		try {
