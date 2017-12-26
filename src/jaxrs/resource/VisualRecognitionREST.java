@@ -3,7 +3,7 @@ package jaxrs.resource;
 import java.io.FileNotFoundException;
 
 import javax.enterprise.context.Dependent;
-
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifiedImages;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.Classifier;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.Classifiers;
 
 import jaxrs.model.WasbookVR;
 
@@ -23,7 +24,7 @@ public class VisualRecognitionREST {
 
 	/*
 	 * デフォルト識別器で画像認識する
-	 * 画像URLを受け取り、画像認識メソッドを呼出して、識別結果としてカテゴリと尤度を受取り、JSON形式で返す
+	 * 画像URLを受け取り、画像認識メソッドを呼出して、識別結果としてカテゴリとスコアを受取り、JSON形式で返す
 	 */
 	@GET
 	@Path("/classify")
@@ -38,7 +39,7 @@ public class VisualRecognitionREST {
 	}
 	
 	/*
-	 * 学習用画像を使用して識別器を生成する
+	 * 学習用画像を使用してカスタム識別器を生成する
 	 * 画像URLを受け取り、識別器の学習・生成メソッドを呼出して、生成された識別器IDを受取り、JSON形式で返す
 	 */
 	@POST
@@ -62,8 +63,8 @@ public class VisualRecognitionREST {
 	}
 	
 	/*
-	 * 独自に生成した識別器で画像認識する
-	 * 画像URLを受け取り、画像認識メソッドを呼出して、独自の識別器を使用した識別結果としてカテゴリと尤度を受取り、JSON形式で返す
+	 * カスタム識別器で画像認識する
+	 * 画像URLを受け取り、画像認識メソッドを呼出して、カスタム識別器を使用した識別結果としてカテゴリとスコアを受取り、JSON形式で返す
 	 */
 	@POST
 	@Path("/classify")
@@ -76,5 +77,36 @@ public class VisualRecognitionREST {
 		WasbookVR wvr = new WasbookVR(href,apiKey);
 		ClassifiedImages resultMessage = wvr.classifyCustom(classifierId);
 		return Response.ok(resultMessage).build();
-	}	
+	}
+	
+	/*
+	 * カスタム識別器を削除する
+	 * 識別器IDを受け取り、識別器を削除するメソッドを呼出す
+	 */
+	@DELETE
+	@Path("/classifiers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteClassifier(
+			@FormParam("apiKey") String apiKey, //Watson APIを使用するための自身のAPIキー
+			@FormParam("classifierId") String classifierId //削除する識別器のID
+			) throws FileNotFoundException{
+		WasbookVR wvr = new WasbookVR(null,apiKey);
+		wvr.deleteClassifier(classifierId);
+		return Response.ok().build();
+	}
+	
+	/*
+	 * 識別器を検索する
+	 * 生成済の識別器の一覧を取得して、JSON形式で返す
+	 */
+	@GET
+	@Path("/classifiers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response retrieveClassifier(
+			@FormParam("apiKey") String apiKey //Watson APIを使用するための自身のAPIキー
+			) {
+		WasbookVR wvr = new WasbookVR(null, apiKey);
+		Classifiers resultMessage = wvr.retrieveClassifier();
+		return Response.ok(resultMessage).build();
+	}
 }
